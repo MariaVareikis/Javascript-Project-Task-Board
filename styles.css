@@ -1,0 +1,115 @@
+body {
+    background-image: url(img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+h1 {
+    font-family : Ink Free;
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: -24px;
+}
+
+.note-book {
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    position: relative;
+}
+.text-box {
+    position: absolute;
+    left: 118px;
+    top: 201px;
+    width: 303px;
+    height: 161px;
+    background: transparent; 
+    line-height: 45px;
+    font-size: 20px;
+}
+.date-input {
+    position: absolute;
+    left: 142px;
+    top: 380px;
+    border: none;
+}
+.time-input {
+    position: absolute;
+    top: 380px;
+    left: 304px;
+    border: none;
+}
+.note img {
+    height: 30%;
+    width: 30%;
+}
+.save {
+    position: absolute;
+    top: 416px;
+    left: 139px;
+    width: 94px;
+}
+.reset {
+    position: absolute;
+    top: 416px;
+    left: 298px;
+    width: 94px;
+}
+
+.note {
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-image: url(img/note.png);
+    width: 250px;
+    height: 250px;
+    margin: -33px 0 0 5px;
+    position: relative;
+}
+
+.noteTextArea {
+    overflow: auto;
+    position: absolute;  
+    top: 69px;
+    left: 39px;
+    overflow-wrap: break-word;
+    inline-size: 170px;
+    height: 42%;
+    overflow-y: auto;
+
+}
+
+.noteDate {
+    position: absolute;
+    right: 140px;
+    top: 184px;
+
+}
+
+.noteTime {
+    position: absolute;
+    right: 41px;
+    top: 185px;
+    
+}
+.notes {
+    text-align: center;
+}
+.button-element {
+    position: absolute;
+    background-image: url(img/delete2.png);
+    top: 57px;
+    right: 33px;
+    width: 31px;
+    height: 30px;
+    visibility: hidden;
+
+}
+.note:hover .button-element {
+    visibility: visible;
+}
+.delete {
+    width: 31px;
+    height: 30px;
+    opacity: 0;
+    cursor: pointer;
+}
