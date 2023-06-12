@@ -1,5 +1,5 @@
 body {
-    background-image: url(img/background.jpg);
+    background-image: url(Assets/Images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -59,7 +59,7 @@ h1 {
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
-    background-image: url(img/note.png);
+    background-image: url(Assets/Images/note.png);
     width: 250px;
     height: 250px;
     margin: -33px 0 0 5px;
@@ -96,7 +96,7 @@ h1 {
 }
 .button-element {
     position: absolute;
-    background-image: url(img/delete2.png);
+    background-image: url(Assets/Images/delete2.png);
     top: 57px;
     right: 33px;
     width: 31px;
