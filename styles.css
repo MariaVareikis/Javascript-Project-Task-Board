@@ -1,10 +1,15 @@
+html {
+    height: 99.9%;
+}
+
 body {
     background-image: url(Assets/Images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 h1 {
-    font-family : Ink Free;
+    font-family: Ink Free;
     text-align: center;
     font-size: 50px;
     margin-bottom: -24px;
@@ -16,38 +21,44 @@ h1 {
     display: inline-block;
     position: relative;
 }
+
 .text-box {
     position: absolute;
     left: 118px;
     top: 201px;
     width: 303px;
     height: 161px;
-    background: transparent; 
+    background: transparent;
     line-height: 45px;
     font-size: 20px;
 }
+
 .date-input {
     position: absolute;
     left: 142px;
     top: 380px;
     border: none;
 }
+
 .time-input {
     position: absolute;
     top: 380px;
     left: 304px;
     border: none;
 }
+
 .note img {
     height: 30%;
     width: 30%;
 }
+
 .save {
     position: absolute;
     top: 416px;
     left: 139px;
     width: 94px;
 }
+
 .reset {
     position: absolute;
     top: 416px;
@@ -68,7 +79,7 @@ h1 {
 
 .noteTextArea {
     overflow: auto;
-    position: absolute;  
+    position: absolute;
     top: 69px;
     left: 39px;
     overflow-wrap: break-word;
@@ -89,11 +100,13 @@ h1 {
     position: absolute;
     right: 41px;
     top: 185px;
-    
+
 }
+
 .notes {
     text-align: center;
 }
+
 .button-element {
     position: absolute;
     background-image: url(Assets/Images/delete2.png);
@@ -104,9 +117,11 @@ h1 {
     visibility: hidden;
 
 }
+
 .note:hover .button-element {
     visibility: visible;
 }
+
 .delete {
     width: 31px;
     height: 30px;

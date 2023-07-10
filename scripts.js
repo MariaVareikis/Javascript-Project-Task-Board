@@ -1,116 +1,172 @@
+// Get element references:
 const dateElement = document.getElementById("date");
 const textareaElement = document.getElementById("textarea");
 const timeElement = document.getElementById("time");
 const notesElement = document.getElementById("notes");
+
+// Initialize notes array:
 let notesArray = [];
 
+// Load notes from local storage and display them:
 getFromLocalStorageAndDisplayNotes();
 
+// Set a minimum date for the date input field:
 limitDateInput();
 
+// Function to limit the date input to the current date and future dates:
 function limitDateInput() {
+    // Get the current date:
     let today = new Date();
 
+    // Format the date as YYYY-MM-DD:
+    let year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
-    let year = today.getFullYear();
+    let formattedDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day}`;
 
-    if (month < 10) {
-        month = "0" + month;
-    }
-    if (day < 10) {
-        day = "0" + day;
-    }
-    today = year + "-" + month + "-" + day;
-
-    document.getElementById("date").setAttribute("min", today);
+    // Set the minimum date attribute of the date input field:
+    document.getElementById("date").setAttribute("min", formattedDate);
 }
 
+// Function to clear the input fields and background colors:
 function removeText() {
     dateElement.value = "";
     textareaElement.value = "";
     timeElement.value = "";
-    dateElement.style.border = "";
-    textareaElement.style.border = "";
-    timeElement.style.border = "";
+    dateElement.style.backgroundColor = "";
+    textareaElement.style.backgroundColor = "";
+    timeElement.style.backgroundColor = "";
 }
+
+// Function to delete a note:
 function deleteNote(button) {
+    // Get the parent elements:
     let buttonElement = button.parentElement;
     let noteDiv = buttonElement.parentElement;
 
+    // Get the ID of the note div:
     let noteDivId = +noteDiv.id;
+
+    // Remove the note from the notes array:
     notesArray.splice(noteDivId, 1);
+
+    // Clear the notes element:
     notesElement.innerHTML = "";
 
+    // Re-create the notes from the updated notes array:
     for (let i = 0; i < notesArray.length; i++) {
         createNote(notesArray[i].textarea, notesArray[i].date, notesArray[i].time, i);
     }
+
+    // Save the updated notes array to local storage:
     saveToLocalStorage();
+
 }
 
+// Function to add a note to the notes array and display it:
 function addNoteToArray(textarea, date, time) {
+
     let newNote = {
         textarea,
         date,
         time
-    }
+    };
+
     notesArray.push(newNote);
+
 }
 
+// Function to handle the add note button click:
 function onAddNoteClicked() {
+
     let textarea = textareaElement.value;
     let date = dateElement.value;
     let time = timeElement.value;
+    let isValid = validateFields(textarea, date, time);
 
+    // Clear previous errors:
     clearErrors();
 
     try {
-        validateFields(textarea, date, time);
+        if (!isValid) {
+            return;
+        }
+
+        // Create the note and add it to the notes array:
         createNote(textarea, date, time, notesArray.length);
         addNoteToArray(textarea, date, time);
+
+        // Save the updated notes array to local storage:
         saveToLocalStorage();
-    }
-    catch (e) {
+    } catch (e) {
         alert(e.message);
     }
-
 }
+
+// Function to validate the input fields:
 function validateFields(textarea, date, time) {
-    let errorMessage = "";
-    if (!textarea) {
-        errorMessage = errorMessage + "Text area can not be empty!\n";
-        textareaElement.style.border = "3px solid red";
+    // Clear previous input background colors:
+    clearInputBackgroundColors();
 
+    if (!textarea) {
+        swal("Error!", "Text area can not be empty!", "error");
+        textareaElement.style.backgroundColor = "pink";
+        return false;
     }
-    else if (textarea.trim() == "") {
-        errorMessage = errorMessage + "Text area can not contain only spaces!\n";
-        textareaElement.style.border = "3px solid red";
+
+    if (textarea.trim() == "") {
+        swal("Error!", "Text area can not contain only spaces!", "error");
+        textareaElement.style.backgroundColor = "pink";
+        return false;
     }
+
     if (!time) {
-        errorMessage = errorMessage + "Please enter a time!\n";
-        timeElement.style.border = "3px solid red";
+        swal("Error!", "Please enter a time!", "error");
+        timeElement.style.backgroundColor = "pink";
+        return false;
     }
+
     if (!date) {
-        errorMessage = errorMessage + "Please enter a date!";
-        dateElement.style.border = "3px solid red";
+        swal("Error!", "Please enter a date!", "error");
+        dateElement.style.backgroundColor = "pink";
+        return false;
     }
+
     let now = new Date();
+
     if (new Date(date) < now) {
-        errorMessage = errorMessage + "Please enter a date in future!";
-        dateElement.style.border = "3px solid red";
+        swal("Error!", "Please enter a date in the future!", "error");
+        dateElement.style.backgroundColor = "pink";
+        return false;
     }
-    if (errorMessage != "") {
-        throw new Error(errorMessage);
-    }
+
+    return true;
+    
 }
 
+// Function to clear the input field background colors:
+function clearInputBackgroundColors() {
+
+    const inputs = [textareaElement, timeElement, dateElement];
+    inputs.forEach((input) => {
+        input.style.backgroundColor = "";
+    });
+
+}
+
+// Function to clear previous errors:
 function clearErrors() {
+
     textareaElement.style.border = "";
     timeElement.style.border = "";
     dateElement.style.border = "";
+    textareaElement.focus();
+
 }
 
-function createNote(textarea, time, date, noteId) {
+// Function to create a new note element:
+function createNote(textarea, date, time, noteId) {
+
     let noteDiv = document.createElement("div");
     noteDiv.setAttribute("class", "note");
     noteDiv.setAttribute("id", noteId);
@@ -141,21 +197,26 @@ function createNote(textarea, time, date, noteId) {
     noteDiv.appendChild(timeSpan);
     buttonElement.appendChild(button);
     noteDiv.appendChild(buttonElement);
-
     notesElement.appendChild(noteDiv);
+
 }
 
+// Function to save the notes array to local storage:
 function saveToLocalStorage() {
     localStorage.setItem("saveNotes", JSON.stringify(notesArray));
-
 }
+
+// Function to retrieve notes from local storage and display them:
 function getFromLocalStorageAndDisplayNotes() {
+
     let notesArrayFromLocalStorage = JSON.parse(localStorage.getItem("saveNotes"));
+
     if (notesArrayFromLocalStorage != null) {
         notesArray = notesArrayFromLocalStorage;
+
         for (let i = 0; i < notesArray.length; i++) {
             createNote(notesArray[i].textarea, notesArray[i].date, notesArray[i].time, i);
         }
     }
-}
 
+}
